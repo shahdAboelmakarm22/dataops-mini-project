@@ -21,3 +21,21 @@ variable "container_name" {
   type        = string
   default     = "dataops-pipeline-container"
 }
+
+variable "network_name" {
+  description = "Name of the Docker network the container is attached to"
+  type        = string
+  default     = "dataops-network"
+}
+
+variable "pipeline_env" {
+  description = "Environment label passed to the container as PIPELINE_ENV"
+  type        = string
+  default     = "dev"
+}
+
+variable "memory_mb" {
+  description = "Memory limit for the container (MB)"
+  type        = number
+  default     = 256
+}

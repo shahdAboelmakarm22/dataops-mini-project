@@ -23,3 +23,41 @@ resource "docker_image" "pipeline" {
     source_hash = local.source_hash
   }
 }
+
+# ------------------------------------------------------------------
+# Docker network (bonus)
+# ------------------------------------------------------------------
+resource "docker_network" "pipeline" {
+  name = var.network_name
+}
+
+# ------------------------------------------------------------------
+# Docker container: runs the pipeline once using the image above
+# ------------------------------------------------------------------
+resource "docker_container" "pipeline" {
+  name  = var.container_name
+  image = docker_image.pipeline.image_id
+
+  # The pipeline is a batch job: it runs, writes output and exits.
+  must_run = false
+  restart  = "no"
+
+  env = [
+    "INPUT_PATH=/app/data/transactions.csv",
+    "OUTPUT_DIR=/app/output",
+    "PIPELINE_ENV=${var.pipeline_env}",
+  ]
+
+  # Resource limits (bonus)
+  memory = var.memory_mb
+
+  networks_advanced {
+    name = docker_network.pipeline.name
+  }
+
+  # Mount the project's output/ folder so results appear on the host (bonus)
+  volumes {
+    host_path      = "${local.project_root}/output"
+    container_path = "/app/output"
+  }
+}
