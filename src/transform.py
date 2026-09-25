@@ -10,7 +10,7 @@ def clean_country(country):
     """Standardise a country value, e.g. ' egypt ' -> 'EGYPT'."""
     if country is None:
         return ""
-    return country.strip()
+    return country.strip().upper()
 
 
 def read_transactions(path):
