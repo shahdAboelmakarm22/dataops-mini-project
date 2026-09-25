@@ -1,0 +1,11 @@
+# Copy to terraform.tfvars and adjust if needed.
+
+# Windows (Docker Desktop):
+# docker_host = "npipe:////./pipe/docker_engine"
+
+# Linux / macOS:
+# docker_host = "unix:///var/run/docker.sock"
+
+image_name     = "dataops-pipeline"
+image_tag      = "latest"
+container_name = "dataops-pipeline-container"
