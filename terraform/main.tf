@@ -3,13 +3,18 @@ locals {
 
   # Files that end up inside the image. If any of them change,
   # Terraform rebuilds the image on the next apply.
-  source_files = fileset(local.project_root, "{Dockerfile,requirements.txt,src/**,data/**}")
-  source_hash  = sha1(join("", [for f in local.source_files : filesha1("${local.project_root}/${f}")]))
+  source_files = setunion(
+    fileset(local.project_root, "src/**"),
+    fileset(local.project_root, "data/**"),
+    fileset(local.project_root, "Dockerfile"),
+    fileset(local.project_root, "requirements.txt"),
+  )
+  source_hash = sha1(join("", [
+    for f in local.source_files : filesha1("${local.project_root}/${f}")
+  ]))
 }
 
-# ------------------------------------------------------------------
 # Docker image: built from the project's Dockerfile
-# ------------------------------------------------------------------
 resource "docker_image" "pipeline" {
   name         = "${var.image_name}:${var.image_tag}"
   keep_locally = false
@@ -24,16 +29,12 @@ resource "docker_image" "pipeline" {
   }
 }
 
-# ------------------------------------------------------------------
 # Docker network (bonus)
-# ------------------------------------------------------------------
 resource "docker_network" "pipeline" {
   name = var.network_name
 }
 
-# ------------------------------------------------------------------
 # Docker container: runs the pipeline once using the image above
-# ------------------------------------------------------------------
 resource "docker_container" "pipeline" {
   name  = var.container_name
   image = docker_image.pipeline.image_id
@@ -52,14 +53,14 @@ resource "docker_container" "pipeline" {
   memory      = var.memory_mb
   memory_swap = var.memory_mb * 2
 
-  # Explicit to avoid a perpetual diff with the kreuzwerker/docker provider
+  # Explicit to avoid a perpetual diff with the docker provider
   network_mode = "bridge"
 
   networks_advanced {
     name = docker_network.pipeline.name
   }
 
-  # Mount the project's output/ folder so results appear on the host (bonus)
+  # Mount the project's output/ folder into the container (bonus)
   volumes {
     host_path      = "${local.project_root}/output"
     container_path = "/app/output"
