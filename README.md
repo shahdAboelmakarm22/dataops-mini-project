@@ -2,7 +2,7 @@
 
 Automated transaction data pipeline with **pytest**, **Docker**, **GitHub Actions** and **Terraform**.
 
-![CI](https://github.com/ShahdAboelmakaram22/dataops-mini-project/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/shahdAboelmakarm22/dataops-mini-project/actions/workflows/ci.yml/badge.svg)
 
 ---
 
