@@ -26,3 +26,9 @@ jobs:
 
       - name: Run pytest
         run: pytest -v
+
+      - name: Build Docker image
+        run: docker build -t dataops-pipeline:ci .
+
+      - name: Run pipeline container (smoke test)
+        run: docker run --rm dataops-pipeline:ci
