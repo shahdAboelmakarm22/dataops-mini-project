@@ -1,0 +1,17 @@
+transaction_id,user_id,country,transaction_date,transaction_type,amount
+1,U001, egypt ,2026-09-01,purchase,200
+2,U002,UAE,2026-09-01,purchase,350
+3,U001,Egypt,2026-09-02,refund,-50
+4,,Saudi Arabia,2026-09-02,purchase,500
+5,U003,egypt,2026-09-01,purchase,150
+6,U004, uae ,2026-09-01,purchase,400
+7,U005,Saudi Arabia,2026-09-02,purchase,300
+8,U002,UAE,2026-09-02,refund,-100
+9,U006,EGYPT,2026-09-01,purchase,-80
+10,U007,Saudi Arabia,2026-09-02,refund,120
+,U008,Egypt,2026-09-02,purchase,90
+12,U009,Egypt,,purchase,60
+13,U001,Egypt,2026-09-02,purchase,250
+14,U010, saudi arabia ,2026-09-01,purchase,700
+15,U003,Egypt,2026-09-01,purchase,100
+16,U011,UAE,2026-09-02,purchase,abc
