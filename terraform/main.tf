@@ -49,7 +49,11 @@ resource "docker_container" "pipeline" {
   ]
 
   # Resource limits (bonus)
-  memory = var.memory_mb
+  memory      = var.memory_mb
+  memory_swap = var.memory_mb * 2
+
+  # Explicit to avoid a perpetual diff with the kreuzwerker/docker provider
+  network_mode = "bridge"
 
   networks_advanced {
     name = docker_network.pipeline.name
